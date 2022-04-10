@@ -1,6 +1,7 @@
 package ru.nast.bootstrapSp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +26,7 @@ public class UserController {
     }
 
     @GetMapping("/admin")
+    @PreAuthorize("hasRole('ADMIN')")
     public String showAdminPage(Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("users", userService.getAllUsers());
@@ -33,6 +35,7 @@ public class UserController {
     }
 
     @GetMapping("/user")
+    @PreAuthorize("hasRole('USER')")
     public ModelAndView showUser() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         ModelAndView modelAndView = new ModelAndView();
@@ -41,8 +44,18 @@ public class UserController {
         return modelAndView;
     }
 
-    @GetMapping("/adduser")
+    @GetMapping("/user-for-admin")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ModelAndView showUserForAdmin() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("user_for_admin");
+        modelAndView.addObject("user", user);
+        return modelAndView;
+    }
 
+    @GetMapping("/adduser")
+    @PreAuthorize("hasRole('ADMIN')")
     public String adduser(Model model) {
         User usera = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("usera", usera);
@@ -51,7 +64,7 @@ public class UserController {
     }
 
     @PostMapping("/adduser")
-
+    @PreAuthorize("hasRole('ADMIN')")
     public String saveUser(
             @RequestParam("name") String name,
             @RequestParam("lastname") String lastname,
@@ -81,13 +94,14 @@ public class UserController {
     }
 
     @GetMapping("/edit/{id}")
-
+    @PreAuthorize("hasRole('ADMIN')")
     public User showUpdateForm(@PathVariable("id") long id) {
         User user = userService.getById(id);
         return user;
     }
 
     @PostMapping("/edit")
+    @PreAuthorize("hasRole('ADMIN')")
     public String updateUser(@ModelAttribute("user") User user,
                              @RequestParam(required = false, name = "ADMIN") String ADMIN,
                              @RequestParam(required = false, name = "USER") String USER) {
@@ -108,6 +122,7 @@ public class UserController {
     }
 
     @DeleteMapping("{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String deleteUser(@PathVariable("id") long id, Model model) {
         userService.delete(userService.getById(id));
         model.addAttribute("users", userService.getAllUsers());

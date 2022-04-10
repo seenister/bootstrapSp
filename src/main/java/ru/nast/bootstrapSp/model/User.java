@@ -1,5 +1,10 @@
 package ru.nast.bootstrapSp.model;
 
+
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -7,8 +12,12 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.Set;
 
+
 @Entity
+@Getter
+@Setter
 @Table(name = "users")
+@NoArgsConstructor
 public class User implements UserDetails {
 
     @Id
@@ -24,17 +33,7 @@ public class User implements UserDetails {
     @JoinTable(name = "users_roles",joinColumns = @JoinColumn(name = "users_id"),inverseJoinColumns = @JoinColumn(name = "roles_id"))
     private Set<Role> roles;
 
-//    public String getRolesString() {
-//        StringBuilder sb = new StringBuilder();
-//
-//        for(Role role : roles) {
-//            sb.append(role.getRole().substring(5).concat(" "));
-//        }
-//        return sb.toString().trim();
-//    }
 
-    public User() {
-    }
 
     public User(String name, String lastname,int age,String email, String password, Set<Role> roles) {
         this.name = name;
@@ -55,66 +54,11 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    public long getId() {
-        return id;
-    }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
     }
 
     @Override
