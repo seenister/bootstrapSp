@@ -77,13 +77,13 @@ public class UserController {
 
         Set<Role> roles = new HashSet<>();
         if (ADMIN != null) {
-            roles.add(new Role(2L, ADMIN));
+            roles.add(new Role(1L, ADMIN));
         }
         if (USER != null) {
-            roles.add(new Role(1L, USER));
+            roles.add(new Role(2L, USER));
         }
         if (ADMIN == null && USER == null) {
-            roles.add(new Role(1L, USER));
+            roles.add(new Role(2L, USER));
         }
 
         User user = new User(name, lastname, age, email, password, roles);
@@ -96,8 +96,7 @@ public class UserController {
     @GetMapping("/edit/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public User showUpdateForm(@PathVariable("id") long id) {
-        User user = userService.getById(id);
-        return user;
+        return userService.getById(id);
     }
 
     @PostMapping("/edit")
@@ -108,13 +107,13 @@ public class UserController {
 
         Set<Role> roles = new HashSet<>();
         if (ADMIN != null) {
-            roles.add(new Role(2L, ADMIN));
+            roles.add(new Role(1L, ADMIN));
         }
         if (USER != null) {
-            roles.add(new Role(1L, USER));
+            roles.add(new Role(2L, USER));
         }
         if (ADMIN == null && USER == null) {
-            roles.add(new Role(1L, USER));
+            roles.add(new Role(2L, USER));
         }
         user.setRoles(roles);
         userService.update(user);
