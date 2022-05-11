@@ -1,9 +1,13 @@
 package ru.nast.bootstrapSp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import ru.nast.bootstrapSp.DTO.CreateUserDTO;
 import ru.nast.bootstrapSp.model.Role;
 import ru.nast.bootstrapSp.model.User;
 import ru.nast.bootstrapSp.service.UserService;
@@ -13,15 +17,15 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping("index")
+@RequestMapping("index-page")
 public class IndexController {
 
     @Autowired
     UserService userService;
 
-    @GetMapping("/login")
-    public String showSignUpForm() {
-        return "login";
+    @GetMapping("/getCurrentUser")
+    public User getCurrentUser() {
+        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
     @GetMapping("/getAllUsers")
@@ -30,35 +34,17 @@ public class IndexController {
     }
 
     @PostMapping("/adduser")
-    public String saveUser(
-            @RequestParam("name") String name,
-            @RequestParam("lastname") String lastname,
-            @RequestParam("age") int age,
-            @RequestParam("email") String email,
-            @RequestParam("password") String password,
-            @RequestParam(required = false, name = "ADMIN") String ADMIN,
-            @RequestParam(required = false, name = "USER") String USER) {
-        Set<Role> roles = new HashSet<>();
-        if (ADMIN != null) {
-            roles.add(new Role(1L, ADMIN));
-        }
-        if (USER != null) {
-            roles.add(new Role(2L, USER));
-        }
-        if (ADMIN == null && USER == null) {
-            roles.add(new Role(2L, USER));
-        }
+    public ResponseEntity<String> saveUser(CreateUserDTO createUserDTO) {
 
-        User user = new User(name, lastname, age, email, password, roles);
-
+        User user = new User(createUserDTO.getName(), createUserDTO.getLastname(), createUserDTO.getAge(),
+                createUserDTO.getEmail(), createUserDTO.getPassword(), createUserDTO.getRoles());
         userService.add(user);
 
-        return " ";
+        return ResponseEntity.ok().body("aal ok");
     }
 
 
     @PostMapping("/edit")
-    @PreAuthorize("hasRole('ADMIN')")
     public String updateUser(@ModelAttribute("user") User user,
                              @RequestParam(required = false, name = "ADMIN") String ADMIN,
                              @RequestParam(required = false, name = "USER") String USER) {
@@ -78,13 +64,11 @@ public class IndexController {
     }
 
     @GetMapping("/edit/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public User showUpdateForm(@PathVariable("id") long id) {
         return userService.getById(id);
     }
 
     @DeleteMapping("{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public String deleteUser(@PathVariable("id") long id) {
         userService.delete(userService.getById(id));
         return "redirect:/index";
