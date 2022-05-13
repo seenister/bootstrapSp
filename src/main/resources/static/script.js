@@ -41,16 +41,16 @@ async function getUsersFromBD() {
                 tr.innerHTML += "<td>\n" +
                         "<a type=\"button\" class=\"btn btn-sm btn-info\"\n" +
                             "data-bs-toggle=\"modal\"\n" +
-                            "data-bs-target=\"#editModal\"\n" +
-                            "data-bs-target=\"${'#editModal'+user.id}\">\n" +
+                            "data-bs-target=\"#editFORM\">\n" +
                             "Edit\n" +
                         "</a>\n" +
                     "</td>\n" +
+
                     "<td>\n" +
                     "<a type=\"button\"\n" +
                     "class=\"btn btn-sm btn-danger\"\n" +
                     "data-bs-toggle=\"modal\"\n" +
-                    "data-bs-target=\"${'#DELETE'+user.id}\">\n" +
+                    "data-bs-target=\"#deleteFORM\">\n" +
                     "Delete\n" +
                     "</a>\n" +
                     "</td>";
@@ -70,6 +70,9 @@ async function editUser (user){
 
 }
 async function deleteUser (user){
+    let table = document.getElementById("userlist")
+
+
 
 }
 

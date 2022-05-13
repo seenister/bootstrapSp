@@ -55,7 +55,7 @@ public class IndexController {
     }
 
 
-    @PostMapping("/edit")
+    @PostMapping("/edit/{id}")
     public String updateUser(@ModelAttribute("user") User user,
                              @RequestParam(required = false, name = "ADMIN") String ADMIN,
                              @RequestParam(required = false, name = "USER") String USER) {
@@ -74,11 +74,6 @@ public class IndexController {
         return " ";
     }
 
-    @GetMapping("/edit/{id}")
-    public User showUpdateForm(@PathVariable("id") long id) {
-        return userService.getById(id);
-    }
-
     @PostMapping("/deleteUser/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable("id") long id) {
         userService.delete(userService.getById(id));
@@ -87,4 +82,7 @@ public class IndexController {
         headers.add("Location", "/index-page");
         return new ResponseEntity<String>(headers, HttpStatus.FOUND);
     }
+
+
+
 }

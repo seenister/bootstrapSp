@@ -84,7 +84,7 @@
 
                                                         <!-- Button edit modal -->
                                                         <div class="modal fade"
-                                                             id="${'editModal'+user.id}" tabindex="-1"
+                                                             id="editFORM" tabindex="-1"
                                                              aria-labelledby="exampleModalLabel"
                                                              aria-hidden="true">
                                                             <div class="modal-dialog">
@@ -93,12 +93,9 @@
                                                                         <h5 class="modal-title"
                                                                             id="editModalLabel">Edit
                                                                             user</h5>
-                                                                        <button type="button"
-                                                                                wclass="btn-close"
-                                                                                data-bs-dismiss="modal"
-                                                                                aria-label="Close"></button>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                     </div>
-                                                                    <form action="@{/edit}"
+                                                                    <form action="http://localhost:8080/index-page/edit/{id}"
                                                                           object="${user}" method="POST">
 
                                                                         <div
@@ -181,7 +178,7 @@
                                                         </div>
                                                         <!-- end Button edit modal-->
                                                         <!-- Button delete modal -->
-                                                        <div class="modal fade" id="${'DELETE'+user.id}"
+                                                        <div class="modal fade" id="deleteFORM"
                                                              tabindex="-1"
                                                              aria-labelledby="exampleModalLabel"
                                                              aria-hidden="true">
@@ -199,8 +196,8 @@
                                                                     </div>
                                                                     <form
                                                                             class="modal-body col-md text-center"
-                                                                            action="@{{id}(id=${user.id})}"
-                                                                            method="DELETE">
+                                                                            action="http://localhost:8080/index-page/deleteUser/{id}"
+                                                                            method="POST">
                                                                         <div class="modal-body col-md">
                                                                             <label
                                                                                     for="id"><b>ID</b></label>
@@ -316,8 +313,9 @@
                                                                       value="USER">
                                                     </label>
                                                     <br><br>
+                                                    <!--правильно ли ссылаться на метод контроллера по атрибуту name? Работает вроде-->
                                                     <button type="submit" class="btn btn-success"
-                                                            value="Add User" name="addUser" id="addUser">Add new User
+                                                          name="addUser" id="addUser">Add new User
                                                     </button>
                                                 </form>
                                             </div>
