@@ -39,12 +39,12 @@ async function getUsersFromBD() {
                 tr.innerHTML += "<td>" + roles + "</td>";
 
                 tr.innerHTML += "<td>\n" +
-                    "<a type=\"button\" class=\"btn btn-sm btn-info\"\n" +
-                    "data-bs-toggle=\"modal\"\n" +
-                    "data-bs-target=\"#editModal\"\n" +
-                    "data-bs-target=\"${'#editModal'+user.id}\">\n" +
-                    "Edit\n" +
-                    "</a>\n" +
+                        "<a type=\"button\" class=\"btn btn-sm btn-info\"\n" +
+                            "data-bs-toggle=\"modal\"\n" +
+                            "data-bs-target=\"#editModal\"\n" +
+                            "data-bs-target=\"${'#editModal'+user.id}\">\n" +
+                            "Edit\n" +
+                        "</a>\n" +
                     "</td>\n" +
                     "<td>\n" +
                     "<a type=\"button\"\n" +
@@ -54,6 +54,8 @@ async function getUsersFromBD() {
                     "Delete\n" +
                     "</a>\n" +
                     "</td>";
+                deleteUser(users[i]);
+                editUser(users[i]);
             }
         })
         .catch(error => {
@@ -64,7 +66,12 @@ async function getUsersFromBD() {
         })
 
 }
+async function editUser (user){
 
+}
+async function deleteUser (user){
+
+}
 
 //код
 

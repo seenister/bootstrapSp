@@ -1,8 +1,8 @@
 package ru.nast.bootstrapSp.DTO;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
-import ru.nast.bootstrapSp.serialize.UserDTODeserializer;
 import ru.nast.bootstrapSp.model.Role;
 import java.util.Set;
 
@@ -14,6 +14,8 @@ public class CreateUserDTO {
     private int age;
     private String email;
     private String password;
-    @JsonDeserialize(using=UserDTODeserializer.class)
-    private Set<Role> roles;
+
+    private String ADMIN;
+    private String USER;
+
 }

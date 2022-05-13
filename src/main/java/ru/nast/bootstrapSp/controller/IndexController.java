@@ -1,6 +1,8 @@
 package ru.nast.bootstrapSp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -35,12 +37,21 @@ public class IndexController {
 
     @PostMapping("/adduser")
     public ResponseEntity<String> saveUser(CreateUserDTO createUserDTO) {
+        Set<Role> roles = new HashSet<>();
 
+        if (createUserDTO.getADMIN().equals("ADMIN")){
+            roles.add(new Role(1L, "ADMIN"));
+        }
+        if (createUserDTO.getUSER().equals("USER")){
+            roles.add(new Role(2L, "USER"));
+        }
         User user = new User(createUserDTO.getName(), createUserDTO.getLastname(), createUserDTO.getAge(),
-                createUserDTO.getEmail(), createUserDTO.getPassword(), createUserDTO.getRoles());
+                createUserDTO.getEmail(), createUserDTO.getPassword(), roles);
         userService.add(user);
 
-        return ResponseEntity.ok().body("aal ok");
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Location", "/index-page");
+        return new ResponseEntity<String>(headers, HttpStatus.FOUND);
     }
 
 
@@ -68,9 +79,12 @@ public class IndexController {
         return userService.getById(id);
     }
 
-    @DeleteMapping("{id}")
-    public String deleteUser(@PathVariable("id") long id) {
+    @PostMapping("/deleteUser/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable("id") long id) {
         userService.delete(userService.getById(id));
-        return "redirect:/index";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Location", "/index-page");
+        return new ResponseEntity<String>(headers, HttpStatus.FOUND);
     }
 }
