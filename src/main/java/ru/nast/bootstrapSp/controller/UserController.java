@@ -16,4 +16,9 @@ public class UserController {
         return "index.html";
     }
 
+    @GetMapping("/sdvsd")
+    public String errorURL() {
+        return "error.html";
+    }
+
 }
