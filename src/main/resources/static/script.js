@@ -57,7 +57,9 @@ async function getUsersFromBD() {
                     "Delete\n" +
                     "</a>\n" +
                     "</td>";
+     /*           innerEditForm(users[i])*/
                 editUser(users[i])
+
 
             }
         })
@@ -68,6 +70,16 @@ async function getUsersFromBD() {
         })
 
 }
+
+/*
+function innerEditForm(user) {
+    document.getElementById("editFormk").innerHTML = " <div class=\"modal fade\"\n" +
+        "                                                             id=\"editFORM" + user[id] + " tabindex=\"-1\"\n" +
+        "                                                             aria-labelledby=\"exampleModalLabel\"\n" +
+        "                                                             aria-hidden=\"true\">";
+
+}
+*/
 
 function editUser(user) {
     let editForm = document.getElementById("formEdit");
