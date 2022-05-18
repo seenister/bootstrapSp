@@ -1,13 +1,44 @@
 "use strict"
 getCurrentUserForNavaBar()
 getUsersFromBD()
-getUserAccFromBD()
+infoUserData()
+
+
+
+
+
+async function infoUserData() {
+    let promise = await fetch("http://localhost:8080/index-page/getCurrentUser")
+    promise.json()
+        .then(user => {
+            let table = document.getElementById("infoUser")
+            console.log(user)
+
+            for (let i = 0; i < user.length; i++) {
+                table.innerHTML += "<tr></tr>"
+                let tr = table.getElementsByTagName("tr")[i];
+
+                tr.innerHTML += "<td>" + user['id'] + "</td>";
+                tr.innerHTML += "<td>" + user['name'] + "</td>";
+                tr.innerHTML += "<td>" + user['lastname'] + "</td>";
+                tr.innerHTML += "<td>" + user['age'] + "</td>";
+                tr.innerHTML += "<td>" + user['email'] + "</td>";
+            }
+        })
+        .catch(error => {
+            console.log(error)
+        })
+        .finally(() => {
+        })
+
+
+}
 
 async function getCurrentUserForNavaBar() {
     let promise = await fetch("http://localhost:8080/index-page/getCurrentUser")
     let user = await promise.json();
 
-    /*  console.log(user.authorities[0].role);*/
+    console.log(user.authorities[0].role);
     let roles = "";
     for (let i = 0; i < user.authorities.length; i++) {
         roles += user.authorities[i].role + " ";
@@ -21,7 +52,7 @@ async function getUsersFromBD() {
     promise.json()
         .then(users => {
             let table = document.getElementById("userlist")
-            /*       console.log(users)*/
+            console.log(users)
 
             for (let i = 0; i < users.length; i++) {
                 table.innerHTML += "<tr></tr>"
@@ -33,7 +64,6 @@ async function getUsersFromBD() {
                 tr.innerHTML += "<td>" + users[i]['age'] + "</td>";
                 tr.innerHTML += "<td>" + users[i]['email'] + "</td>";
 
-
                 let roles = '';
                 for (let j = 0; j < users[i]['authorities'].length; j++) {
                     roles += users[i]['authorities'][j].role + " ";
@@ -43,7 +73,7 @@ async function getUsersFromBD() {
                 tr.innerHTML += "<td>\n" +
                     "<a type=\"button\" class=\"btn btn-sm btn-info\"\n" +
                     "data-bs-toggle=\"modal\"\n" +
-                    "data-bs-target=\""+innerEditForm(users[i])+"\">\n" +
+                    "data-bs-target=\"#editFORM\">\n" +
                     "Edit\n" +
                     "</a>\n" +
                     "</td>\n" +
@@ -56,51 +86,16 @@ async function getUsersFromBD() {
                     "Delete\n" +
                     "</a>\n" +
                     "</td>";
-
                 editUser(users[i])
-
+                /*deleteUser(users[i])*/
 
             }
-
         })
         .catch(error => {
             console.log(error)
         })
         .finally(() => {
         })
-
-}
-
-async function getUserAccFromBD() {
-    let promise = await fetch("http://localhost:8080/index-page/getCurrentUser")
-    promise.json()
-        .then(user => {
-            let table = document.getElementById("userInfo")
-            console.log(user)
-
-            table.innerHTML += "<tr></tr>"
-            let tr = table.getElementsByTagName("tr")[i];
-
-            tr.innerHTML += "<td>" + user['id'] + "</td>";
-            tr.innerHTML += "<td>" + user['name'] + "</td>";
-            tr.innerHTML += "<td>" + user['lastname'] + "</td>";
-            tr.innerHTML += "<td>" + user['age'] + "</td>";
-            tr.innerHTML += "<td>" + user['email'] + "</td>";
-        })
-        .catch(error => {
-            console.log(error)
-        })
-        .finally(() => {
-        })
-
-}
-
-
-function innerEditForm(user) {
-    document.getElementById("editFormk").innerHTML = " <div class=\"modal fade\"\n" +
-        "                                                             id=\"editFORM" + user[id] + " tabindex=\"-1\"\n" +
-        "                                                             aria-labelledby=\"exampleModalLabel\"\n" +
-        "                                                             aria-hidden=\"true\">";
 
 }
 
@@ -162,8 +157,7 @@ function editUser(user) {
         roles += user['authorities'][j].role + " ";
     }
     editForm.innerHTML += roles;
-
-    editForm.innerHTML += " <br>\n" +
+    editForm.innerHTML += "   <br>\n" +
         "                            <label><b>Role</b></label>\n" +
         "                            <label>Admin<input\n" +
         "                                type=\"checkbox\"\n" +
@@ -190,48 +184,13 @@ function editUser(user) {
 
 }
 
+
 async function deleteUser(user) {
     let promise = await fetch("http://localhost:8080/index-page/deleteUser/{id}")
     promise.json()
-        .then(users => {
-            let table = document.getElementById("userlist")
-            /*           console.log(users)*/
-
-            for (let i = 0; i < users.length; i++) {
-                table.innerHTML += "<tr></tr>"
-                let tr = table.getElementsByTagName("tr")[i];
-
-                tr.innerHTML += "<td>" + users[i]['id'] + "</td>";
-                tr.innerHTML += "<td>" + users[i]['name'] + "</td>";
-                tr.innerHTML += "<td>" + users[i]['lastname'] + "</td>";
-                tr.innerHTML += "<td>" + users[i]['age'] + "</td>";
-                tr.innerHTML += "<td>" + users[i]['email'] + "</td>";
-
-                let roles = '';
-                for (let j = 0; j < users[i]['authorities'].length; j++) {
-                    roles += users[i]['authorities'][j].role + " ";
-                }
-                tr.innerHTML += "<td>" + roles + "</td>";
-
-                tr.innerHTML += "<td>\n" +
-                    "<a type=\"button\" class=\"btn btn-sm btn-info\"\n" +
-                    "data-bs-toggle=\"modal\"\n" +
-                    "data-bs-target=\"#editFORM\">\n" +
-                    "Edit\n" +
-                    "</a>\n" +
-                    "</td>\n" +
-
-                    "<td>\n" +
-                    "<a type=\"button\"\n" +
-                    "class=\"btn btn-sm btn-danger\"\n" +
-                    "data-bs-toggle=\"modal\"\n" +
-                    "data-bs-target=\"#deleteFORM\">\n" +
-                    "Delete\n" +
-                    "</a>\n" +
-                    "</td>";
-                deleteUser(users[i]);
-                editUser(users[i]);
-            }
+        .then(user => {
+            let table = document.getElementById("formDelete")
+            console.log(user)
         })
         .catch(error => {
             console.log(error)
@@ -240,6 +199,3 @@ async function deleteUser(user) {
         })
 }
 
-//код
-
-//функции

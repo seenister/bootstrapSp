@@ -5,6 +5,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import ru.nast.bootstrapSp.DTO.CreateUserDTO;
 import ru.nast.bootstrapSp.model.Role;
@@ -26,6 +27,11 @@ public class IndexController {
     public User getCurrentUser() {
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
+
+  /*  @GetMapping("/getCurrentUser2")
+    public User getCurrentUser() {
+        return (UserDetails) SecurityContextHolder.getContext().getAuthentication().getDetails();
+    }*/
 
     @GetMapping("/getAllUsers")
     public List<User> getAllUsers() {
