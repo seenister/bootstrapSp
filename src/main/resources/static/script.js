@@ -3,10 +3,6 @@ getCurrentUserForNavaBar()
 getUsersFromBD()
 infoUserData()
 
-
-
-
-
 async function infoUserData() {
     let promise = await fetch("http://localhost:8080/index-page/getCurrentUser")
     promise.json()
@@ -30,8 +26,6 @@ async function infoUserData() {
         })
         .finally(() => {
         })
-
-
 }
 
 async function getCurrentUserForNavaBar() {
@@ -70,10 +64,12 @@ async function getUsersFromBD() {
                 }
                 tr.innerHTML += "<td>" + roles + "</td>";
 
+
                 tr.innerHTML += "<td>\n" +
                     "<a type=\"button\" class=\"btn btn-sm btn-info\"\n" +
                     "data-bs-toggle=\"modal\"\n" +
-                    "data-bs-target=\"#editFORM\">\n" +
+                    "href=\"#editFORM\">\n" +
+                  /*  "onclick=\"this.href += '?' +" + " users[i]['id'] " +*/
                     "Edit\n" +
                     "</a>\n" +
                     "</td>\n" +
@@ -82,13 +78,12 @@ async function getUsersFromBD() {
                     "<a type=\"button\"\n" +
                     "class=\"btn btn-sm btn-danger\"\n" +
                     "data-bs-toggle=\"modal\"\n" +
-                    "data-bs-target=\"#deleteFORM\">\n" +
+                    "href=\"#deleteFORM\">\n" +
                     "Delete\n" +
                     "</a>\n" +
                     "</td>";
                 editUser(users[i])
                 /*deleteUser(users[i])*/
-
             }
         })
         .catch(error => {
@@ -96,7 +91,6 @@ async function getUsersFromBD() {
         })
         .finally(() => {
         })
-
 }
 
 function editUser(user) {
@@ -183,7 +177,6 @@ function editUser(user) {
         "</form>";
 
 }
-
 
 async function deleteUser(user) {
     let promise = await fetch("http://localhost:8080/index-page/deleteUser/{id}")
