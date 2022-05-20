@@ -1,11 +1,14 @@
 package ru.nast.bootstrapSp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ru.nast.bootstrapSp.DTO.CreateUserDTO;
 import ru.nast.bootstrapSp.model.Role;
@@ -23,15 +26,13 @@ public class IndexController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     @GetMapping("/getCurrentUser")
     public User getCurrentUser() {
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
-
-  /*  @GetMapping("/getCurrentUser2")
-    public User getCurrentUser() {
-        return (UserDetails) SecurityContextHolder.getContext().getAuthentication().getDetails();
-    }*/
 
     @GetMapping("/getAllUsers")
     public List<User> getAllUsers() {
@@ -59,7 +60,7 @@ public class IndexController {
 
 
     @PostMapping("/edit/{id}")
-    public String updateUser(@ModelAttribute("user") User user,
+    public ResponseEntity<String> updateUser(@ModelAttribute("user") User user,
                              @RequestParam(required = false, name = "ADMIN") String ADMIN,
                              @RequestParam(required = false, name = "USER") String USER) {
         Set<Role> roles = new HashSet<>();
@@ -70,11 +71,14 @@ public class IndexController {
             roles.add(new Role(2L, USER));
         }
         if (ADMIN == null && USER == null) {
-            roles.add(new Role(2L, USER));
+            roles.add(null);
         }
         user.setRoles(roles);
         userService.update(user);
-        return " ";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Location", "/index-page");
+        return new ResponseEntity<String>(headers, HttpStatus.FOUND);
     }
 
     @PostMapping("/deleteUser/{id}")

@@ -81,127 +81,12 @@
                                                         </tr>
                                                         </thead>
                                                         <tbody id="userlist">
-
                                                         <!-- Button edit modal -->
-                                                        <div class="modal fade"
-                                                             id="editFORM" tabindex="-1"
-                                                             aria-labelledby="exampleModalLabel"
-                                                             aria-hidden="true">
-                                                            <div class="modal-dialog">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title"
-                                                                            id="editModalLabel">Edit
-                                                                            user</h5>
-                                                                        <button
-                                                                                type="button" class="btn-close"
-                                                                                data-bs-dismiss="modal"
-                                                                                aria-label="Close">
-                                                                        </button>
-                                                                    </div>
-                                                                    <form id="formEdit"></form>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                        <div id="editForm"></div>
+
                                                         <!-- end Button edit modal-->
                                                         <!-- Button delete modal -->
-                                                        <div class="modal fade" id="deleteFORM"
-                                                             tabindex="-1"
-                                                             aria-labelledby="exampleModalLabel"
-                                                             aria-hidden="true">
-                                                            <div class="modal-dialog" role="document">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title"
-                                                                            id="exampleModalLabel">
-                                                                            Delete
-                                                                            user</h5>
-                                                                        <button type="button"
-                                                                                class="btn-close"
-                                                                                data-bs-dismiss="modal"
-                                                                                aria-label="Close"></button>
-                                                                    </div>
-                                                                    <form
-                                                                            class="modal-body col-md text-center"
-                                                                            action="http://localhost:8080/index-page/deleteUser/{id}"
-                                                                            method="POST">
-                                                                        <div class="modal-body col-md">
-                                                                            <label
-                                                                                    for="id"><b>ID</b></label>
-                                                                            <input name="id" type="text"
-                                                                                   class="form-control"
-                                                                                   id="id"
-                                                                                   value="${user.id}"
-                                                                                   disabled/>
-                                                                            <br>
-                                                                            <label for="name1"><b>First
-                                                                                name</b></label>
-                                                                            <input name="name"
-                                                                                   type="text"
-                                                                                   class="form-control"
-                                                                                   id="name1"
-                                                                                   value="${user.name}"
-                                                                                   disabled/>
-                                                                            <br>
-                                                                            <label for="surname1"><b>Last
-                                                                                name</b></label>
-                                                                            <input name="lastName"
-                                                                                   type="text"
-                                                                                   class="form-control"
-                                                                                   id="surname1"
-                                                                                   value="${user.lastname}"
-                                                                                   disabled/>
-                                                                            <br>
-                                                                            <label
-                                                                                    for="age1"><b>Age</b></label>
-                                                                            <input name="age"
-                                                                                   type="number"
-                                                                                   class="form-control"
-                                                                                   id="age1"
-                                                                                   value="${user.age}"
-                                                                                   disabled/>
-                                                                            <br>
-                                                                            <label
-                                                                                    for="username1"><b>E-mail</b></label>
-                                                                            <input name="username"
-                                                                                   type="text"
-                                                                                   class="form-control"
-                                                                                   id="username1"
-                                                                                   value="${user.username}"
-                                                                                   disabled/>
-                                                                            <br>
-                                                                            <label><b>Role</b></label>
-                                                                            <label>Admin<input
-                                                                                    type="checkbox"
-                                                                                    id="qeqwe"
-                                                                                    name="ADMIN"
-                                                                                    value="ADMIN"
-                                                                                    disabled
-                                                                                    id="ADMIN"></label>
-                                                                            <label>User<input
-                                                                                    type="checkbox"
-                                                                                    id="qweqwe"
-                                                                                    name="USER"
-                                                                                    value="USER"
-                                                                                    disabled></label>
-                                                                            <br><br>
-                                                                        </div>
-                                                                        <div class="modal-footer">
-                                                                            <button type="button"
-                                                                                    class="btn btn-secondary"
-                                                                                    data-bs-dismiss="modal">
-                                                                                Close
-                                                                            </button>
-
-                                                                            <button type="submit"
-                                                                                    class="btn btn-danger">
-                                                                                Delete
-                                                                            </button>
-                                                                        </div>
-                                                                    </form>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                        <div id="deleteForm"></div>
                                                         <!-- end Button delete modal -->
                                                         </tbody>
                                                     </table>
@@ -211,6 +96,7 @@
                                         <div class="tab-pane fade" id="nav-profile" role="tabpanel"
                                              aria-labelledby="nav-profile-tab">
                                             <div class="col-md bg-white border">
+                                                <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
                                                 <form class="offset-md-4 col-md-4 mt-3 mb-4" align="center"
                                                        method="post" action="http://localhost:8080/index-page/adduser">
                                                     <label for="name"><b>First name</b></label>
@@ -273,6 +159,7 @@
                                             <th>Last Name</th>
                                             <th>Age</th>
                                             <th>Email</th>
+                                            <th>Role</th>
                                         </tr>
                                         </thead>
                                         <tbody id="infoUser">
