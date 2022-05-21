@@ -1,13 +1,10 @@
 package ru.nast.bootstrapSp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ru.nast.bootstrapSp.DTO.CreateUserDTO;
@@ -40,7 +37,7 @@ public class IndexController {
     }
 
     @PostMapping("/adduser")
-    public ResponseEntity<String> saveUser(CreateUserDTO createUserDTO) {
+    public ResponseEntity<HttpStatus> saveUser(@RequestBody CreateUserDTO createUserDTO) {
         Set<Role> roles = new HashSet<>();
 
         if (createUserDTO.getADMIN() != null){
@@ -53,9 +50,7 @@ public class IndexController {
                 createUserDTO.getEmail(), createUserDTO.getPassword(), roles);
         userService.add(user);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Location", "/index-page");
-        return new ResponseEntity<String>(headers, HttpStatus.FOUND);
+        return ResponseEntity.ok().build();
     }
 
 

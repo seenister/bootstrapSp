@@ -2,19 +2,26 @@
 getCurrentUser()
 getUsersFromBD()
 
+const newUserForm = document.getElementById("newUserForm");
+newUserForm.addEventListener("submit", handleFormSubmit);
+
 
 async function getCurrentUser() {
     let promise = await fetch("http://localhost:8080/index-page/getCurrentUser")
     let user = await promise.json();
 
-    console.log(user.authorities[0].role);
     let roles = "";
     for (let i = 0; i < user.authorities.length; i++) {
         roles += user.authorities[i].role + " ";
     }
+    var nava = document.querySelector('.navigation-bar');
 
-    document.querySelector('.navigation-bar').innerHTML = "<b><span>" + `${user.email}` + "</span></b> with roles:<span>" + `${roles}` + "</span>";
 
+    nava.innerHTML = "<b><span>" + `${user.email}` + "</span></b> with roles:<span>" + `${roles}` + "</span>";
+    document.querySelector('.navigation-bar').onchange = function () {
+        var navaupdate = nava.value;
+        updateDisplay(nav)
+    }
     let table = document.getElementById("infoUser")
     table.innerHTML += "<tr>" +
         "<td>" + user['id'] + "</td>" +
@@ -116,6 +123,7 @@ function editUser(user) {
         "                                                                   </div>\n" +
         "                                                                   <form\n" +
         "                                                                            class=\"modal-body col-md text-center\"\n" +
+        "                                                                               id = \"newEditForm\"" +
         "                                                                            action=\"http://localhost:8080/index-page/edit/" + user['id'] + "\"" +
         "                                                                            method=\"POST\">\n" +
         "                                                                        <div class=\"modal-body col-md\">\n" +
@@ -237,7 +245,7 @@ function deleteUser(user) {
         "                                                                                aria-label=\"Close\"></button>\n" +
         "                                                                    </div>\n" +
         "                                                                    <form\n" +
-        "                                                                            class=\"modal-body col-md text-center\"\n" +
+        "                                                                            class=\"modal-body col-md text-center \"\n" + "id=\"deleteForm\"" +
         "                                                                            action=\"http://localhost:8080/index-page/deleteUser/" + user['id'] + "\"" +
         "                                                                            method=\"POST\">\n" +
         "                                                                        <div class=\"modal-body col-md\">\n" +
@@ -318,4 +326,46 @@ function deleteUser(user) {
         "                                                            </div>\n" +
         "                                                        </div>";
 
+}
+
+async function postFormDataAsJson({url, formData}) {
+    const plainFormData = Object.fromEntries(formData.entries());
+    const formDataJsonString = JSON.stringify(plainFormData);
+
+    const fetchOptions = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+        },
+        body: formDataJsonString,
+    };
+
+    const response = await fetch(url, fetchOptions);
+
+    if (!response.ok) {
+        const errorMessage = await response.text();
+        throw new Error(errorMessage);
+    }
+    if (response.ok) {
+        alert("Пользователь успешно добавлен");
+        getUsersFromBD();
+    }
+    return response.json();
+}
+
+async function handleFormSubmit(event) {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    const url = form.action;
+
+    try {
+        const formData = new FormData(form);
+        const responseData = await postFormDataAsJson({url, formData});
+
+        console.log({responseData});
+    } catch (error) {
+        console.error(error);
+    }
 }
