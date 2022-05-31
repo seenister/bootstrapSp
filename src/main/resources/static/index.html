@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 
 <head>
     <meta charset="UTF-8">
     <title>Добро пожаловать!</title>
-    <link rel="stylesheet" href="styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 
@@ -83,11 +82,8 @@
                                                         </thead>
                                                         <tbody id="userlist">
                                                         <!-- Button edit modal -->
-                                                        <div id="editForm"></div>
-
                                                         <!-- end Button edit modal-->
                                                         <!-- Button delete modal -->
-                                                        <div id="deleteForm"></div>
                                                         <!-- end Button delete modal -->
                                                         </tbody>
                                                     </table>
@@ -99,7 +95,7 @@
                                             <div class="col-md bg-white border">
                                                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
                                                 <form class="offset-md-4 col-md-4 mt-3 mb-4" id="newUserForm" align="center"
-                                                       method="post" action="http://localhost:8080/index-page/adduser">
+                                                      method="post" action="http://localhost:8080/index-page/adduser">
                                                     <label for="name"><b>First name</b></label>
                                                     <input name="name" type="text" class="form-control"
                                                            id="name"/>
@@ -120,15 +116,15 @@
                                                     <input name="password" type="password"
                                                            class="form-control" id="password"/>
                                                     <br>
-                                                    <label>Admin <input type="checkbox" name="ADMIN" id ="ADMIN"
+                                                    <label>Admin <input type="checkbox" name="admin" id ="ADMIN"
                                                                         value="ADMIN">
                                                     </label>
-                                                    <label>User<input type="checkbox" name="USER" id ="USER"
+                                                    <label>User<input type="checkbox" name="user" id ="USER"
                                                                       value="USER">
                                                     </label>
                                                     <br><br>
                                                     <button type="submit" class="btn btn-success"
-                                                          name="addUser" id="addUser">Add new User
+                                                            name="addUser" id="addUser">Add new User
                                                     </button>
                                                 </form>
                                             </div>
@@ -186,11 +182,15 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+<script src="js/infoAboutCurrentUser.js"></script>
+<script src="js/sendFetchForm.js"></script>
+<script src="js/modalWindows/control-modal.js"></script>
 
-<script src="addNewUser.js"></script>
-<script src="infoAboutCurrentUser.js"></script>
-<script src="showUserTable.js"></script>
-<script src="codeWithJQuery.js"></script>
+<script src="js/showUserTable.js"></script>
+<script src="js/modalWindows/editUser.js"></script>
+<script src="js/modalWindows/deleteUser.js"></script>
+
+<script src="js/index.js"></script>
 </body>
 
 </html>

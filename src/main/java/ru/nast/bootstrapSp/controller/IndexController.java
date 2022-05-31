@@ -1,13 +1,13 @@
 package ru.nast.bootstrapSp.controller;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ru.nast.bootstrapSp.DTO.CreateUserDTO;
+import ru.nast.bootstrapSp.DTO.DeleteUserDTO;
+import ru.nast.bootstrapSp.DTO.EditUserDTO;
 import ru.nast.bootstrapSp.model.Role;
 import ru.nast.bootstrapSp.model.User;
 import ru.nast.bootstrapSp.service.UserService;
@@ -28,7 +28,12 @@ public class IndexController {
 
     @GetMapping("/getCurrentUser")
     public User getCurrentUser() {
-        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return userService.getById(currentUser.getId());
+    }
+    @GetMapping("/getUser/{id}")
+    public User getUserById(@PathVariable("id") long id) {
+        return userService.getById(id);
     }
 
     @GetMapping("/getAllUsers")
@@ -40,10 +45,10 @@ public class IndexController {
     public ResponseEntity<HttpStatus> saveUser(@RequestBody CreateUserDTO createUserDTO) {
         Set<Role> roles = new HashSet<>();
 
-        if (createUserDTO.getADMIN() != null){
+        if (createUserDTO.getAdmin() != null){
             roles.add(new Role(1L, "ADMIN"));
         }
-        if (createUserDTO.getUSER() != null){
+        if (createUserDTO.getUser() != null){
             roles.add(new Role(2L, "USER"));
         }
         User user = new User(createUserDTO.getName(), createUserDTO.getLastname(), createUserDTO.getAge(),
@@ -55,34 +60,26 @@ public class IndexController {
 
 
     @PostMapping("/edit/{id}")
-    public ResponseEntity<String> updateUser(@ModelAttribute("user") User user,
-                             @RequestParam(required = false, name = "ADMIN") String ADMIN,
-                             @RequestParam(required = false, name = "USER") String USER) {
+    public ResponseEntity<HttpStatus> updateUser(@RequestBody EditUserDTO editUserDTO) {
         Set<Role> roles = new HashSet<>();
-        if (ADMIN != null) {
-            roles.add(new Role(1L, ADMIN));
+        if (editUserDTO.getAdmin() != null){
+            roles.add(new Role(1L, "ADMIN"));
         }
-        if (USER != null) {
-            roles.add(new Role(2L, USER));
+        if (editUserDTO.getUser() != null){
+            roles.add(new Role(2L, "USER"));
         }
-        if (ADMIN == null && USER == null) {
-            roles.add(null);
-        }
-        user.setRoles(roles);
+        User user = new User(editUserDTO.getId(),editUserDTO.getName(), editUserDTO.getLastname(), editUserDTO.getAge(),
+                editUserDTO.getEmail(), editUserDTO.getPassword(), roles);
         userService.update(user);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Location", "/index-page");
-        return new ResponseEntity<String>(headers, HttpStatus.FOUND);
+
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/deleteUser/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable("id") long id) {
-        userService.delete(userService.getById(id));
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Location", "/index-page");
-        return new ResponseEntity<String>(headers, HttpStatus.FOUND);
+    public ResponseEntity<HttpStatus> deleteUser(@RequestBody DeleteUserDTO deleteUserDTO) {
+        userService.delete(userService.getById(deleteUserDTO.getId()));
+        return ResponseEntity.ok().build();
     }
 
 
