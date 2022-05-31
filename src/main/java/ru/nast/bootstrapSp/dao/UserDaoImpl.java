@@ -70,4 +70,3 @@ public class UserDaoImpl implements UserDao {
         return new BCryptPasswordEncoder();
     }
 }
-

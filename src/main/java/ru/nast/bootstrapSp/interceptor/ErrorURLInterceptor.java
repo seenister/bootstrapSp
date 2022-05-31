@@ -1,3 +1,4 @@
+/*
 package ru.nast.bootstrapSp.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,4 +20,4 @@ public class ErrorURLInterceptor extends HandlerInterceptorAdapter {
         response.sendRedirect(request.getContextPath() + "/index-page");
         return false;
     }
-}
+}*/
