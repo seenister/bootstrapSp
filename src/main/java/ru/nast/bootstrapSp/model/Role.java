@@ -16,20 +16,22 @@ import java.util.Set;
 @Table(name = "roles")
 @NoArgsConstructor
 public class Role implements GrantedAuthority {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column
     private String role;
+
     @JsonIgnore
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
-
 
     public Role(Long id, String role) {
         this.id = id;
         this.role = role;
     }
-
 
     @Override
     public String getAuthority() {
@@ -51,6 +53,6 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String toString() {
-        return role ;
+        return role;
     }
 }

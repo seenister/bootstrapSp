@@ -2,7 +2,7 @@ getUsersFromBD()
 document.addEventListener("update-info",getUsersFromBD);
 
 async function getUsersFromBD() {
-    let promise = await fetch("http://localhost:8080/index-page/getAllUsers")
+    let promise = await fetch("http://localhost:8080/index-page/GET/user/all")
     promise.json()
         .then(users => {
             let table = document.getElementById("userlist");

@@ -1,5 +1,5 @@
 async function editUser(event) {
-    let promise = await fetch("http://localhost:8080/index-page/getUser/" + event.target.dataset.id);
+    let promise = await fetch("http://localhost:8080/index-page/GET/user/" + event.target.dataset.id);
     let user = await promise.json();
 
     let admin_check = "";
@@ -23,7 +23,7 @@ async function editUser(event) {
         id: 'editModal' + event.target.dataset.id,
         title: 'Edit user',
         formID: 'editFORM',
-        formURL: 'http:\/\/localhost:8080\/index-page\/edit\/' + event.target.dataset.id,
+        formURL: 'http:\/\/localhost:8080\/index-page\/POST\/user\/edit\/' + event.target.dataset.id,
         formMethod: 'POST',
         body: `
               <label for="id0"><b>ID</b></label>

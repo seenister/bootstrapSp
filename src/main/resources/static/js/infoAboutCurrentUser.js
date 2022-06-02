@@ -2,7 +2,7 @@ getCurrentUser();
 document.addEventListener("update-info", getCurrentUser);
 
 async function getCurrentUser() {
-    let promise = await fetch("http://localhost:8080/index-page/getCurrentUser");
+    let promise = await fetch("http://localhost:8080/index-page/GET/user/current");
     let user = await promise.json();
 
     let roles = "";

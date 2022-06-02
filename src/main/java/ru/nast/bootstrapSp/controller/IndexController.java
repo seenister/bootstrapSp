@@ -1,4 +1,5 @@
 package ru.nast.bootstrapSp.controller;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.nast.bootstrapSp.DTO.CreateUserDTO;
 import ru.nast.bootstrapSp.DTO.DeleteUserDTO;
 import ru.nast.bootstrapSp.DTO.EditUserDTO;
+import ru.nast.bootstrapSp.mapping.UserMapper;
 import ru.nast.bootstrapSp.model.Role;
 import ru.nast.bootstrapSp.model.User;
 import ru.nast.bootstrapSp.service.UserService;
@@ -21,67 +23,43 @@ import java.util.Set;
 public class IndexController {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private UserMapper userMapper;
 
-    @GetMapping("/getCurrentUser")
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @GetMapping("/GET/user/current")
     public User getCurrentUser() {
-        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return userService.getById(currentUser.getId());
+        return userService.getById(userService.getCurrentUser().getId());
     }
-    @GetMapping("/getUser/{id}")
+    @GetMapping("/GET/user/{id}")
     public User getUserById(@PathVariable("id") long id) {
         return userService.getById(id);
     }
 
-    @GetMapping("/getAllUsers")
+    @GetMapping("/GET/user/all")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
-    @PostMapping("/adduser")
+    @PostMapping("/POST/user/add")
     public ResponseEntity<HttpStatus> saveUser(@RequestBody CreateUserDTO createUserDTO) {
-        Set<Role> roles = new HashSet<>();
-
-        if (createUserDTO.getAdmin() != null){
-            roles.add(new Role(1L, "ADMIN"));
-        }
-        if (createUserDTO.getUser() != null){
-            roles.add(new Role(2L, "USER"));
-        }
-        User user = new User(createUserDTO.getName(), createUserDTO.getLastname(), createUserDTO.getAge(),
-                createUserDTO.getEmail(), createUserDTO.getPassword(), roles);
-        userService.add(user);
-
+        userService.add(userMapper.mappingCreateUser(createUserDTO));
         return ResponseEntity.ok().build();
     }
 
-
-    @PostMapping("/edit/{id}")
+    @PostMapping("/POST/user/edit/{id}")
     public ResponseEntity<HttpStatus> updateUser(@RequestBody EditUserDTO editUserDTO) {
-        Set<Role> roles = new HashSet<>();
-        if (editUserDTO.getAdmin() != null){
-            roles.add(new Role(1L, "ADMIN"));
-        }
-        if (editUserDTO.getUser() != null){
-            roles.add(new Role(2L, "USER"));
-        }
-        User user = new User(editUserDTO.getId(),editUserDTO.getName(), editUserDTO.getLastname(), editUserDTO.getAge(),
-                editUserDTO.getEmail(), editUserDTO.getPassword(), roles);
-        userService.update(user);
-
-
+        userService.update(userMapper.mappingEditUser(editUserDTO));
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/deleteUser/{id}")
+    @PostMapping("/POST/user/delete/{id}")
     public ResponseEntity<HttpStatus> deleteUser(@RequestBody DeleteUserDTO deleteUserDTO) {
         userService.delete(userService.getById(deleteUserDTO.getId()));
         return ResponseEntity.ok().build();
     }
-
-
-
 }
