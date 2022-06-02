@@ -3,20 +3,15 @@ package ru.nast.bootstrapSp.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ru.nast.bootstrapSp.DTO.CreateUserDTO;
 import ru.nast.bootstrapSp.DTO.DeleteUserDTO;
 import ru.nast.bootstrapSp.DTO.EditUserDTO;
 import ru.nast.bootstrapSp.mapping.UserMapper;
-import ru.nast.bootstrapSp.model.Role;
 import ru.nast.bootstrapSp.model.User;
 import ru.nast.bootstrapSp.service.UserService;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("index-page")
@@ -27,9 +22,6 @@ public class IndexController {
 
     @Autowired
     private UserMapper userMapper;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/GET/user/current")
     public User getCurrentUser() {
