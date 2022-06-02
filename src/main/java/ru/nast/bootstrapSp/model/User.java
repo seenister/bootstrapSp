@@ -1,7 +1,6 @@
 package ru.nast.bootstrapSp.model;
 
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,39 +23,47 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @Column(unique = true)
     private String name;
+
+    @Column
     private String lastname;
+
+    @Column
     private int age;
+
+    @Column(unique = true)
     private String email;//unique
+
     @JsonIgnore
     private String password;
+
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "users_id"), inverseJoinColumns = @JoinColumn(name = "roles_id"))
+    @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "users_id"),
+            inverseJoinColumns = @JoinColumn(name = "roles_id"))
     private Set<Role> roles;
 
 
-
-    public User(String name, String lastname,int age,String email, String password, Set<Role> roles) {
+    public User(String name, String lastname, int age, String email, String password, Set<Role> roles) {
         this.name = name;
         this.lastname = lastname;
-        this.age=age;
+        this.age = age;
         this.email = email;
         this.password = password;
         this.roles = roles;
     }
 
-    public User(long id, String name, String lastname,int age, String email, String password, Set<Role> roles) {
+    public User(long id, String name, String lastname, int age, String email, String password, Set<Role> roles) {
         this.id = id;
         this.name = name;
         this.lastname = lastname;
-        this.age=age;
+        this.age = age;
         this.email = email;
         this.password = password;
         this.roles = roles;
     }
-
 
 
     @Override
