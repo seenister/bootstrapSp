@@ -1,8 +1,7 @@
 package ru.nast.bootstrapSp.mapping;
 
 import org.springframework.stereotype.Component;
-import ru.nast.bootstrapSp.DTO.CreateUserDTO;
-import ru.nast.bootstrapSp.DTO.EditUserDTO;
+import ru.nast.bootstrapSp.DTO.UserDTO;
 import ru.nast.bootstrapSp.model.Role;
 import ru.nast.bootstrapSp.model.User;
 
@@ -11,7 +10,7 @@ import java.util.Set;
 
 @Component
 public class UserMapper {
-    public User mappingEditUser(EditUserDTO editUserDTO){
+    public User mappingEditUser(UserDTO editUserDTO){
         Set<Role> roles = new HashSet<>();
         if (editUserDTO.getAdmin() != null){
             roles.add(new Role(1L, "ADMIN"));
@@ -23,7 +22,7 @@ public class UserMapper {
                 editUserDTO.getEmail(), editUserDTO.getPassword(), roles);
         return user;
     }
-    public User mappingCreateUser(CreateUserDTO createUserDTO){
+    public User mappingCreateUser(UserDTO createUserDTO){
         Set<Role> roles = new HashSet<>();
 
         if (createUserDTO.getAdmin() != null){
