@@ -1,5 +1,5 @@
 async function deleteUser(event) {
-    let promise = await fetch("http://localhost:8080/index-page/GET/user/" + event.target.dataset.id);
+    let promise = await fetch("http://localhost:8080/index-page/users/" + event.target.dataset.id);
     let user = await promise.json();
 
     let admin_check = "";
@@ -23,7 +23,7 @@ async function deleteUser(event) {
         id: 'deleteModal' + event.target.dataset.id,
         title: 'Delete user',
         formID: 'deleteFORM',
-        formURL: 'http:\/\/localhost:8080\/index-page\/POST\/user\/delete\/' + event.target.dataset.id,
+        formURL: 'http:\/\/localhost:8080\/index-page\/users\/delete\/' + event.target.dataset.id,
         formMethod: 'DELETE',
         body: `
               <label for="id0"><b>ID</b></label>

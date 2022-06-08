@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import ru.nast.bootstrapSp.handler.SuccessHandler;
 
 
 @Configuration
@@ -23,6 +24,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @Bean
+    public SuccessHandler successHandler() {
+        return new SuccessHandler();
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -31,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/login")
                 .usernameParameter("j_username")
                 .passwordParameter("j_password")
-                .defaultSuccessUrl("/index-page", true)
+                .successHandler(successHandler())
                 .permitAll();
 
         http.logout()
@@ -44,11 +49,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("**").authenticated()
+                .antMatchers("/admin-page").hasRole("ADMIN")
                 .anyRequest()
                 .authenticated();
 
     }
+
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {

@@ -23,33 +23,33 @@ public class IndexController {
     @Autowired
     private UserMapper userMapper;
 
-    @GetMapping("/GET/user/current")
+    @GetMapping("/users/current")
     public User getCurrentUser() {
         return userService.getById(userService.getCurrentUser().getId());
     }
-    @GetMapping("/GET/user/{id}")
+    @GetMapping("/users/{id}")
     public User getUserById(@PathVariable("id") long id) {
         return userService.getById(id);
     }
 
-    @GetMapping("/GET/user/all")
+    @GetMapping("/users")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
-    @PostMapping("/POST/user/add")
+    @PostMapping("/users/add")
     public ResponseEntity<HttpStatus> saveUser(@RequestBody CreateUserDTO createUserDTO) {
         userService.add(userMapper.mappingCreateUser(createUserDTO));
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/POST/user/edit/{id}")
+    @PostMapping("/users/edit/{id}")
     public ResponseEntity<HttpStatus> updateUser(@RequestBody EditUserDTO editUserDTO) {
         userService.update(userMapper.mappingEditUser(editUserDTO));
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/POST/user/delete/{id}")
+    @PostMapping("/users/delete/{id}")
     public ResponseEntity<HttpStatus> deleteUser(@RequestBody DeleteUserDTO deleteUserDTO) {
         userService.delete(userService.getById(deleteUserDTO.getId()));
         return ResponseEntity.ok().build();
