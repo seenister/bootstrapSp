@@ -1,6 +1,9 @@
 const newUserForm = document.getElementById("newUserForm");
 newUserForm.addEventListener("submit",handleFormSubmit);
 
+const sendMessagesForm = document.getElementById("sendMessagesForm");
+sendMessagesForm.addEventListener("submit",handleFormSubmit);
+
 
 document.addEventListener('click',async event => {
 
@@ -14,7 +17,7 @@ document.addEventListener('click',async event => {
         editModal.showModal();
 
         const editForm = document.getElementById("editFORM");
-        editForm.addEventListener("submit",handleFormSubmit);
+        editForm.addEventListener("submit", handleFormSubmit);
     }
     if (deleteBtn) {
         event.preventDefault();
@@ -23,9 +26,10 @@ document.addEventListener('click',async event => {
         deleteModal.showModal();
 
         const deleteUserForm = document.getElementById("deleteFORM");
-        deleteUserForm.addEventListener("submit",handleFormSubmit);
+        deleteUserForm.addEventListener("submit", handleFormSubmit);
 
     }
+
 
 })
 

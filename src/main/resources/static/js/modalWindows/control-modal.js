@@ -15,7 +15,8 @@ ModalApp.ModalProcess = function (parameters) {
         '<h5 class="modal-title">' + this.title + '</h5>' +
         ' <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>' +
         '</div>' +
-        '<form action="' + this.formURL + '" id = "' + this.formID + '" method="' + this.formMethod + '">' +
+        '<form action="' + this.formURL + '" id = "' + this.formID + '" method="POST">' +
+        '<input type="hidden" name="_method" value="' + this.formMethod + '">'+
         '<div class="modal-body">' + this.body + '</div>' +
         '<div class="modal-footer">' + this.footer + '</div>' +
         '</form>' +
